@@ -17,7 +17,7 @@ function Adornment({
 }) {
   return (
     <i
-      className={`flex items-center justify-center bg-slate-400 text-slate-600 font-semibold h-full w-8 text-sm cursor-default ${className}`}
+      className={`flex items-center justify-center bg-slate-400 text-slate-600 font-semibold h-full w-20 text-sm cursor-default ${className}`}
     >
       {adornment}
     </i>
@@ -32,6 +32,7 @@ export function Section({
   endAdornment,
   ...rest
 }: ISectionProps) {
+  console.log({ start: !!startAdornment, end: !!endAdornment });
   return (
     <section className={`flex flex-col ${className}`}>
       <label htmlFor={id} className="text-xs text-zinc-300 font-semibold">
@@ -45,13 +46,18 @@ export function Section({
         <input
           type="text"
           id={id}
-          className={`w-full text-slate-600 p-1 pl-2 outline-none rounded ${
-            !!startAdornment ? "rounded-none rounded-r-md" : "rounded-none rounded-l-md"
-          }`}
+          className={`w-full flex-1 text-slate-600 p-2 outline-none
+            ${!!startAdornment && !endAdornment ? "rounded-r-md" : ""}
+            ${!!endAdornment && !startAdornment ? "rounded-l-md" : ""}
+            ${!!startAdornment && !!endAdornment ? "rounded-none" : ""}
+            ${!startAdornment && !endAdornment ? "rounded-md" : ""}
+          `}
           {...rest}
         />
 
-        {!!endAdornment ? <Adornment adornment={endAdornment} className='rounded-r-md' /> : null}
+        {!!endAdornment ? (
+          <Adornment adornment={endAdornment} className="rounded-r-md" />
+        ) : null}
       </div>
     </section>
   );
