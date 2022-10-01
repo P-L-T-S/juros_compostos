@@ -1,16 +1,22 @@
 import { CaretDown } from "phosphor-react";
 import * as Select from "@radix-ui/react-select";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
 export const PeriodByButton = ({
   setPeriodBy,
 }: {
   setPeriodBy: Dispatch<SetStateAction<string>>;
 }) => {
+  useEffect(() => {
+    setPeriodBy("meses");
+  }, []);
+
   return (
     <Select.Root
       defaultValue="meses"
-      onValueChange={(valueSelected) => setPeriodBy(valueSelected)}
+      onValueChange={(valueSelected) => {
+        setPeriodBy(valueSelected);
+      }}
     >
       <Select.Trigger className="w-full h-full flex items-center justify-center gap-1 outline-none">
         <Select.Value className="w-full h-full" />

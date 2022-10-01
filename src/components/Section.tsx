@@ -32,7 +32,6 @@ export function Section({
   endAdornment,
   ...rest
 }: ISectionProps) {
-  console.log({ start: !!startAdornment, end: !!endAdornment });
   return (
     <section className={`flex flex-col ${className}`}>
       <label htmlFor={id} className="text-xs text-zinc-300 font-semibold">
