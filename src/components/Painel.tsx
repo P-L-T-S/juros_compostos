@@ -7,16 +7,19 @@ import { calculateYieldByYear } from "../utils/calculateYieldByYear";
 import { formatStringToCurrency } from "../utils/formatStringToCurrency";
 
 import { ITotalProfitabilityOutput } from "../interfaces/totalProfitability";
+import { PainelCard } from "./PainelCard";
 
 export function Painel({
   setTotalProfitability,
+  setShowDash,
 }: {
   setTotalProfitability: Dispatch<SetStateAction<ITotalProfitabilityOutput>>;
+  setShowDash: Dispatch<SetStateAction<boolean>>;
 }) {
-  const [initialValue, setInitialValue] = useState("");
-  const [monthlyValue, setMonthlyValue] = useState("");
-  const [rates, setRates] = useState("");
-  const [period, setPeriod] = useState("");
+  const [initialValue, setInitialValue] = useState("0,00");
+  const [monthlyValue, setMonthlyValue] = useState("0,00");
+  const [rates, setRates] = useState("0,00");
+  const [period, setPeriod] = useState("0");
   const [ratesBy, setRatesBy] = useState("");
   const [periodBy, setPeriodBy] = useState("");
 
@@ -31,10 +34,11 @@ export function Painel({
     });
 
     setTotalProfitability(calculatedYield);
+    setShowDash(true);
   }
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 w-full text-zinc-200 bg-slate-500 rounded-lg">
+    <PainelCard>
       <header>
         <h1 className="text-3xl font-black">Calculadora de Juros Compostos</h1>
       </header>
@@ -45,7 +49,7 @@ export function Painel({
           startAdornment={"R$"}
           value={initialValue}
           onChange={(e) => {
-            formatStringToCurrency(e.target.value, setInitialValue);
+            setInitialValue(formatStringToCurrency(e.target.value));
           }}
         />
         <Section
@@ -54,7 +58,7 @@ export function Painel({
           startAdornment={"R$"}
           value={monthlyValue}
           onChange={(e) =>
-            formatStringToCurrency(e.target.value, setMonthlyValue)
+            setMonthlyValue(formatStringToCurrency(e.target.value))
           }
         />
         <Section
@@ -63,7 +67,7 @@ export function Painel({
           startAdornment={"%"}
           endAdornment={<PeriodByButton setPeriodBy={setRatesBy} />}
           value={rates}
-          onChange={(e) => formatStringToCurrency(e.target.value, setRates)}
+          onChange={(e) => setRates(formatStringToCurrency(e.target.value))}
         />
         <Section
           id="period"
@@ -76,6 +80,7 @@ export function Painel({
       <footer className="flex justify-end items-center gap-4 w-full mt-4">
         <button
           type="button"
+          name='calculate'
           className="bg-slate-900 rounded p-2 font-semibold"
           onClick={() => handleClickToCalculate()}
         >
@@ -88,6 +93,6 @@ export function Painel({
           Limpar
         </button>
       </footer>
-    </div>
+    </PainelCard>
   );
 }

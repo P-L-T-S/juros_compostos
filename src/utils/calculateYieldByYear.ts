@@ -28,8 +28,8 @@ export function calculateYieldByYear({
     periodBy == "anos" ? Number(period) * 12 : Number(period);
   const convertedFloatRates =
     ratesBy == "anos"
-      ? floatRates.toFixed(2)
-      : convertYearRateToMonthly(floatRates).toFixed(2);
+      ? convertYearRateToMonthly(floatRates).toFixed(20)
+      : floatRates.toFixed(4);
 
   let amount = floatInitialValue;
   let amountYields = 0;
@@ -68,6 +68,5 @@ export function calculateYieldByYear({
     amountYields.toFixed(2)
   );
 
-  console.log({ ratesBy, periodBy, periodNumber, convertedFloatRates });
   return totalProfitability;
 }

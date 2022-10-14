@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Dashboard } from "./components/Dashboard";
 import { Painel } from "./components/Painel";
 import { ITotalProfitabilityOutput } from "./interfaces/totalProfitability";
 
@@ -11,11 +12,17 @@ function App() {
       valuesByMonth: [],
     });
 
+  const [showDashboard, setShowDashboard] = useState(false);
   return (
-    <div className="flex flex-col items-center justify-center w-4/5 h-screen m-auto">
-      <Painel setTotalProfitability={setTotalProfitability} />
-
-      <h1 className='text-2xl text-zinc-200' >{totalProfitability.amount}</h1>
+    <div className="flex flex-col justify-center gap-10 w-4/5 h-screen m-auto">
+      {!showDashboard ? (
+        <Painel
+          setTotalProfitability={setTotalProfitability}
+          setShowDash={setShowDashboard}
+        />
+      ) : (
+        <Dashboard profitability={totalProfitability} />
+      )}
     </div>
   );
 }

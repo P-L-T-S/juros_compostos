@@ -45,6 +45,7 @@ export function Section({
         <input
           type="text"
           id={id}
+          name={id}
           className={`w-full flex-1 text-slate-600 p-2 outline-none
             ${!!startAdornment && !endAdornment ? "rounded-r-md" : ""}
             ${!!endAdornment && !startAdornment ? "rounded-l-md" : ""}

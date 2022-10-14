@@ -8,12 +8,12 @@ export const PeriodByButton = ({
   setPeriodBy: Dispatch<SetStateAction<string>>;
 }) => {
   useEffect(() => {
-    setPeriodBy("meses");
+    setPeriodBy("anos");
   }, []);
 
   return (
     <Select.Root
-      defaultValue="meses"
+      defaultValue="anos"
       onValueChange={(valueSelected) => {
         setPeriodBy(valueSelected);
       }}
