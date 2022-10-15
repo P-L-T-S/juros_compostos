@@ -8,6 +8,7 @@ import { formatStringToCurrency } from "../utils/formatStringToCurrency";
 
 import { ITotalProfitabilityOutput } from "../interfaces/totalProfitability";
 import { PainelCard } from "./PainelCard";
+import { formatCurrencyToNumber } from "../utils/formatCurrencyToNumber";
 
 export function Painel({
   setTotalProfitability,
@@ -38,7 +39,7 @@ export function Painel({
   }
 
   return (
-    <PainelCard>
+    <PainelCard role="painel" >
       <header>
         <h1 className="text-3xl font-black">Calculadora de Juros Compostos</h1>
       </header>
@@ -80,14 +81,16 @@ export function Painel({
       <footer className="flex justify-end items-center gap-4 w-full mt-4">
         <button
           type="button"
-          name='calculate'
+          name="calculate"
           className="bg-slate-900 rounded p-2 font-semibold"
           onClick={() => handleClickToCalculate()}
+          disabled={formatCurrencyToNumber(rates) === 0 && Number(period) === 0}
         >
           Calcular
         </button>
         <button
           type="button"
+          name="limpar"
           className="bg-slate-700 rounded p-2 font-semibold"
         >
           Limpar
