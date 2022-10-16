@@ -96,4 +96,50 @@ describe("component app", () => {
 
     expect(calculate_button).not.toBeDisabled();
   });
+
+  //   deveria calcular e exibir o dashboard
+  it("should to calculate and show the dashboard", async () => {
+    render(<App />);
+
+    const initial_value = screen.getByRole("textbox", {
+      name: "Valor inicial",
+    });
+
+    await userEvent.type(initial_value, "1.000,00");
+
+    const monthly_value = screen.getByRole("textbox", {
+      name: "Valor mensal",
+    });
+
+    await userEvent.type(monthly_value, "1.000,00");
+
+    const rates = screen.getByRole("textbox", {
+      name: "Rentabilidade",
+    });
+
+    await userEvent.type(rates, "8,00");
+
+    const period = screen.getByRole("textbox", {
+      name: "Período",
+    });
+
+    await userEvent.type(period, "{backspace}2");
+
+    const calculate_button = screen.getByRole("button", {
+      name: "Calcular",
+    });
+
+    await userEvent.click(calculate_button);
+
+    const dashboard = screen.queryByRole("dashboard");
+    expect(dashboard).toBeInTheDocument();
+
+    const valor_final = screen.getByRole("valor_final");
+    const valor_investido = screen.getByRole("valor_investido");
+    const juros_recebido = screen.getByRole("juros_recebido");
+
+    expect(valor_final.textContent).toEqual("27.028,88");
+    expect(valor_investido.textContent).toEqual("25.000,00");
+    expect(juros_recebido.textContent).toEqual("2.028,88");
+  });
 });
