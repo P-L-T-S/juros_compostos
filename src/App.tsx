@@ -21,7 +21,10 @@ function App() {
           setShowDash={setShowDashboard}
         />
       ) : (
-        <Dashboard profitability={totalProfitability} />
+        <Dashboard
+          profitability={totalProfitability}
+          setShowDash={setShowDashboard}
+        />
       )}
     </div>
   );

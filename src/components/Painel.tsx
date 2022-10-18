@@ -38,8 +38,14 @@ export function Painel({
     setShowDash(true);
   }
 
+  function clearInputs() {
+    setInitialValue("0,00");
+    setMonthlyValue("0,00");
+    setRates("0,00");
+    setPeriod("0");
+  }
   return (
-    <PainelCard role="painel" >
+    <PainelCard role="painel">
       <header>
         <h1 className="text-3xl font-black">Calculadora de Juros Compostos</h1>
       </header>
@@ -84,7 +90,7 @@ export function Painel({
           name="calculate"
           className="bg-slate-900 rounded p-2 font-semibold"
           onClick={() => handleClickToCalculate()}
-          disabled={formatCurrencyToNumber(rates) === 0 && Number(period) === 0}
+          disabled={formatCurrencyToNumber(rates) === 0 || Number(period) === 0}
         >
           Calcular
         </button>
@@ -92,6 +98,7 @@ export function Painel({
           type="button"
           name="limpar"
           className="bg-slate-700 rounded p-2 font-semibold"
+          onClick={() => clearInputs()}
         >
           Limpar
         </button>

@@ -18,8 +18,8 @@ describe("component app", () => {
     expect(dashboard).not.toBeInTheDocument();
   });
 
-  //   deveria renderizar o Painel e os inputs
-  it("should render Painel AND the inputs", () => {
+  //   deveria renderizar o Painel e os inputs com o botão desabilitado
+  it("should render Painel AND the inputs with the button disabled", () => {
     render(<App />);
 
     const initial_value = screen.getByRole("textbox", {
@@ -55,6 +55,45 @@ describe("component app", () => {
     expect(calculate_button).toBeDisabled();
 
     expect(limpar_button).toBeInTheDocument();
+  });
+
+  // deveria habilitar o botão de calcular apenas se "period" OU "rates" forem diferentes de 0
+  it("should enable the calculate button only if 'period' OR  'rates' to be diferent to 0", async () => {
+    render(<App />);
+
+    const initial_value = screen.getByRole("textbox", {
+      name: "Valor inicial",
+    });
+    const monthly_value = screen.getByRole("textbox", {
+      name: "Valor mensal",
+    });
+    const rates = screen.getByRole("textbox", {
+      name: "Rentabilidade",
+    });
+    const calculate_button = screen.getByRole("button", {
+      name: "Calcular",
+    });
+    const period = screen.getByRole("textbox", {
+      name: "Período",
+    });
+
+    await userEvent.type(initial_value, "1.000,00");
+    await userEvent.type(monthly_value, "1.000,00");
+    await userEvent.type(rates, "8,00");
+
+    expect(calculate_button).toBeDisabled();
+
+    await userEvent.clear(rates);
+    await userEvent.type(rates, "0,00");
+
+    await userEvent.type(period, "{backspace}2");
+
+    expect(calculate_button).toBeDisabled();
+
+    await userEvent.type(rates, "8,00");
+    await userEvent.type(period, "{backspace}2");
+
+    expect(calculate_button).toBeEnabled();
   });
 
   //   deveria preencher os inputs
@@ -95,6 +134,41 @@ describe("component app", () => {
     expect(period).toHaveValue("2");
 
     expect(calculate_button).not.toBeDisabled();
+  });
+
+  // deveria limpar os campos
+  it("should clear the inputs", async () => {
+    render(<App />);
+
+    const initial_value = screen.getByRole("textbox", {
+      name: "Valor inicial",
+    });
+
+    const monthly_value = screen.getByRole("textbox", {
+      name: "Valor mensal",
+    });
+
+    const rates = screen.getByRole("textbox", {
+      name: "Rentabilidade",
+    });
+
+    const period = screen.getByRole("textbox", {
+      name: "Período",
+    });
+
+    const limpar_button = screen.getByRole("button", { name: "Limpar" });
+
+    await userEvent.type(initial_value, "1.000,00");
+    await userEvent.type(monthly_value, "1.000,00");
+    await userEvent.type(rates, "8,00");
+    await userEvent.type(period, "{backspace}2");
+
+    await userEvent.click(limpar_button);
+
+    expect(initial_value).toHaveValue("0,00");
+    expect(monthly_value).toHaveValue("0,00");
+    expect(rates).toHaveValue("0,00");
+    expect(period).toHaveValue("0");
   });
 
   //   deveria calcular e exibir o dashboard

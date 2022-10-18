@@ -1,13 +1,22 @@
+import { ArrowLeft } from "phosphor-react";
+import { Dispatch, SetStateAction } from "react";
 import { ITotalProfitabilityOutput } from "../interfaces/totalProfitability";
 import { PainelCard } from "./PainelCard";
 
 export function Dashboard({
   profitability,
+  setShowDash,
 }: {
   profitability: ITotalProfitabilityOutput;
+  setShowDash: Dispatch<SetStateAction<boolean>>;
 }) {
   return (
     <PainelCard className="bg-slate-400 max-h-[500px]" role="dashboard">
+      <header className="flex justify-start w-full">
+        <button type="button" className="" onClick={() => setShowDash(false)}>
+          <ArrowLeft size={32} />
+        </button>
+      </header>
       <div className="flex justify-evenly w-full mb-6">
         <section className="p-5 w-60 text-center rounded-md border border-slate-700 bg-slate-500">
           <h1 className="text-sm">Valor final:</h1>
